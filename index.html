@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>pin- · 剪辑得分</title>
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect fill='%23100e0c' width='32' height='32'/%3E%3Ctext x='3' y='23' fill='%23ffb703' font-size='16' font-family='Palatino,serif'%3Epin%3C/text%3E%3C/svg%3E">
+    <link rel="stylesheet" href="css/app.css">
+  </head>
+  <body>
+    <header class="top">
+      <div class="brand">
+        <div class="logo">pin-</div>
+        <div>
+          <p class="eyebrow">PIN-PONG</p>
+          <h1>剪辑得分</h1>
+        </div>
+      </div>
+      <p class="privacy" id="privacy">评分记在这台浏览器里。视频只在本地预览，不会上传。</p>
+      <div class="top-actions">
+        <button type="button" class="primary" id="new-project">新建成片</button>
+        <label class="file-button">
+          导入 JSON
+          <input id="import-json" type="file" accept="application/json,.json">
+        </label>
+        <button type="button" id="export-json">导出 JSON</button>
+        <button type="button" id="print-sheet">打印评分单</button>
+      </div>
+    </header>
+
+    <div class="layout">
+      <aside class="panel list-panel">
+        <div class="list-head">
+          <h2>成片</h2>
+          <span class="hint" id="project-count"></span>
+        </div>
+        <ul class="project-list" id="project-list"></ul>
+      </aside>
+
+      <main class="panel stage-panel" id="stage">
+        <div class="meta">
+          <label>成片名称
+            <input id="title" type="text" maxlength="80" autocomplete="off">
+          </label>
+          <label>剪辑
+            <input id="editor" type="text" maxlength="40" autocomplete="off">
+          </label>
+          <label>评分人
+            <input id="reviewer" type="text" maxlength="40" autocomplete="off">
+          </label>
+        </div>
+
+        <div class="video-frame" id="video-frame">
+          <video id="player" controls playsinline preload="metadata"></video>
+          <div class="video-empty" id="video-empty">选择本地视频后可以边看边记。没有视频时，也可以直接写时间码。</div>
+        </div>
+        <div class="toolbar">
+          <label class="file-button">
+            选择视频
+            <input id="video-file" type="file" accept="video/*">
+          </label>
+          <p class="hint" id="video-name"></p>
+        </div>
+
+        <div class="section-head">
+          <h2>时间线笔记</h2>
+          <span class="hint">点时间码可跳到该帧</span>
+        </div>
+        <form class="mark-form" id="mark-form">
+          <label>时间
+            <input id="mark-time" type="text" inputmode="decimal" placeholder="0:12.40" autocomplete="off">
+          </label>
+          <label class="grow">这一笔
+            <input id="mark-text" type="text" maxlength="240" placeholder="这一刀的问题或优点" required>
+          </label>
+          <button type="button" id="capture-time">取当前时间</button>
+          <button type="submit" class="primary">记一笔</button>
+        </form>
+        <p class="hint" id="mark-hint" hidden></p>
+        <ol class="mark-list" id="mark-list"></ol>
+
+        <div class="section-head">
+          <h2>总评</h2>
+        </div>
+        <label class="meta-label">给成片留一句可以改的话
+          <textarea id="summary" maxlength="1000"></textarea>
+        </label>
+      </main>
+
+      <aside class="panel score-panel" id="score-panel">
+        <div class="score-head">
+          <h2>评分单</h2>
+          <span class="hint">每项 10 分，按权重合成百分制</span>
+        </div>
+        <div class="total">
+          <div>
+            <p class="total-number" id="total-score" aria-live="polite">0.0</p>
+            <div class="meter" id="meter"><span></span></div>
+            <p class="total-caption" id="weight-caption"></p>
+          </div>
+          <div class="grade-block">
+            <strong id="grade-letter">D</strong>
+            <span id="grade-label">待改</span>
+          </div>
+        </div>
+        <div id="criteria"></div>
+        <div class="score-tools">
+          <button type="button" id="reset-scores">分数归零</button>
+          <button type="button" id="reset-weights">恢复默认权重</button>
+          <button type="button" class="danger" id="delete-project">删除这条成片</button>
+        </div>
+      </aside>
+    </div>
+
+    <script src="js/score.js"></script>
+    <script src="js/app.js"></script>
+  </body>
+</html>
